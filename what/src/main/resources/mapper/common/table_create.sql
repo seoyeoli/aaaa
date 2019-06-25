@@ -63,42 +63,59 @@ create table just_code
 	insert into just_code( code_id , code_name, code_prog) values('PI', '필라테스', 'PRG');
 	insert into just_code( code_id , code_name, code_prog) values('DA', '댄스', 'PRG');
 	
+	insert into just_code( code_id , code_name, code_prog) values('P0', '예정', 'PRG');
+	insert into just_code( code_id , code_name, code_prog) values('P1', '접수중', 'PRG');
+	insert into just_code( code_id , code_name, code_prog) values('P2', '진행중', 'PRG');
+	insert into just_code( code_id , code_name, code_prog) values('P3', '완료', 'PRG');
+	
 	insert into just_code( code_id , code_name, code_prog) values('TP', 'PT트레이너', 'USR');
 	insert into just_code( code_id , code_name, code_prog) values('AD', '관리자', 'USR');
+	insert into just_code( code_id , code_name, code_prog) values('US', '회원', 'USR');
 	
-	insert into just_code( code_id , code_name, code_prog) values('01', '등록신청', 'SCH');
-	insert into just_code( code_id , code_name, code_prog) values('02', '역요청', 'SCH');
-	insert into just_code( code_id , code_name, code_prog) values('03', '신청완료', 'SCH');
-	insert into just_code( code_id , code_name, code_prog) values('04', '취소', 'SCH');
-	insert into just_code( code_id , code_name, code_prog) values('05', '완료', 'SCH');
-	insert into just_code( code_id , code_name, code_prog) values('06', '미완료', 'SCH');
+	insert into just_code( code_id , code_name, code_prog) values('00', '등록신청', 'SCH');
+	insert into just_code( code_id , code_name, code_prog) values('01', '역요청', 'SCH');
+	insert into just_code( code_id , code_name, code_prog) values('02', '신청완료', 'SCH');
+	insert into just_code( code_id , code_name, code_prog) values('03', '취소', 'SCH');
+	insert into just_code( code_id , code_name, code_prog) values('04', '완료', 'SCH');
+	insert into just_code( code_id , code_name, code_prog) values('05', '미완료', 'SCH');
 	                                                          
 
 
 create table just_program(
     prog_id varchar2(100),
     prog_type char(2),
-    prog_name varchar2(1000)
+    prog_name varchar2(1000),
     prog_trainer varchar2(100),
     prog_remark varchar2(2000),
     prog_limit number(3),
+    prog_status_code char(2),
+    prog_del_yn char(1) default 'N'
 )
 
 	insert into just_program (
 	    PROG_ID,
 	    PROG_TYPE,
+	    PROG_NAME,
 	    PROG_TRAINER,
 	    PROG_REMARK,
 	    PROG_LIMIT,
-	    PROG_NAME)
+	    PROG_STATUS_CODE,
+	    PROG_DEL_YN
+	)
 	values(
 	    'PT20190620000', --'PT'||to_char(sysdate,'yyyymmdd')||'000',
 	    'PT',
+	    '관리자PT',
 	    'admin',
 	    '관리자 트레이너의 PT수업',
 	    '999',
-	    '관리자 PT'
+	    'P2',
+	    'N'
 	)
+	--P0 예정
+	--P1 접수중
+	--P2 진행중
+	--P3 종료
 
 
 create table just_prog_user
@@ -119,7 +136,8 @@ create table just_schedule
     sch_time varchar2(100),
     prog_id varchar2(100),
     sch_wrt_user_id varchar2(100),
-    sch_status_code char(2) default '00'
+    sch_status_code char(2) default '00',
+    sch_del_yn char(1) default 'N'
 )
 --00 등록신청
 --01 트레이너쪽에서 역요청
@@ -136,7 +154,8 @@ create table just_schedule
 	    sch_time ,
 	    prog_id ,
 	    sch_wrt_user_id,
-	    sch_statue_code
+	    sch_status_code,
+	    sch_del_yn
 	)
 	values(
 	    to_char(sysdate,'yyyymmddhh24miss')||'000',
@@ -145,7 +164,8 @@ create table just_schedule
 	    '1400',
 	    'PT20190620000',
 	    'admin',
-	    '02'
+	    '02',
+	    'N'
 	);
 
 

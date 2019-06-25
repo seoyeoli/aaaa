@@ -16,7 +16,7 @@
 		
 		<div>
 		<c:choose>
-		<c:when test="${length(progList)>0}">
+		<c:when test="${fn:length(progList)>0}">
 			<c:forEach items="list" var="row">
 			<div class="" style="margin: 10px 15px 10px 15px">
 				<div></div>

@@ -12,7 +12,10 @@
 			sche.sch_time, 
 			sche.sch_wrt_user_id, 
 			(select user_name from just_user ju2 where ju2.user_id = sche.sch_wrt_user_id) as sch_wrt_user_name,
+			sche.sch_status_code,
+			(select code_name from just_code co1 where co1.code_id = sche.sch_status_code) as sch_status_code_name,
 			prog.prog_id, 
+			prog.prog_name,
 			prog.prog_type, 
 			(select code_name from just_code where code_id = prog.prog_type) as prog_type_name,
 			prog.prog_trainer,
@@ -21,6 +24,8 @@
 		FROM just_schedule sche, just_program prog
 		WHERE sche.prog_id = prog.prog_id(+)
 		AND sche.user_id = #{user_id}
+		AND sche.sche_del_yn = 'N'
+		AND prog.prog_del_yn = 'N'
 	]]>	
 	<if test="sch_day != '' and sch_day != null">
 		<![CDATA[
@@ -33,5 +38,28 @@
 	</select>
 	
 	
+	<insert id="saveSchedule" parameterType="com.my.company.schedule.vo.scheduleVO" >
+	<![CDATA[
+		INSERT INTO JUST_SCHEDULE(
+			SCH_ID
+			USER_ID
+			SCH_DAY
+			SCH_TIME
+			PROG_ID
+			SCH_WRT_USER_ID
+			SCH_STATUS_CODE
+		)
+		VALUES(
+			to_char(sysdate,'yyyymmddhh24miss')|| 
+			LPAD((SELECT COUNT(SCH_ID) FROM JUST_SCHEDULE WHERE SCH_ID like to_char(sysdate,'yyyymmddhh24miss')||'%' ),3,'0'),
+			#{user_id},
+			#{sch_day},
+			#{sch_time},
+			#{prog_id},
+			#{sch_wrt_user_id},
+			#{sch_status_code}
+		)
+	]]>
+	</insert>
 	
 </mapper>

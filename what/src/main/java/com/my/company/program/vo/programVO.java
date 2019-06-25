@@ -1,4 +1,4 @@
-package com.my.company.program;
+package com.my.company.program.vo;
 
 public class programVO {
 	String prog_id;

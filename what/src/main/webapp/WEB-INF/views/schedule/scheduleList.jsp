@@ -6,8 +6,8 @@
 	<!-- js, 부트스트랩 등등 include -->
 	<%@ include file="/WEB-INF/views/common/comm.jsp" %>
 	<script type="text/javascript">
-		//캘린더 설정& 선택 시 다른곳에 값 세팅..
 		$(document).ready(function() {
+			//>>>>>>>>캘린더 설정& 선택 시 날짜 세팅 START
 			flatpickr("#myDatePicker", {
 				"allowInput" : true,
 				"inline" : true, 
@@ -48,6 +48,8 @@
 					//<<<<캘린더 변경 이벤트 END
 				}
 			});
+			//<<<<<<<<< 캘린더 설정& 선택 시 날짜 세팅 END
+			
 			
 			//>>>>문서 로딩 시 오늘 날짜에 대한 스케줄 세팅 START
 			document.getElementById("selDay").innerHTML = document.getElementById("myDatePicker").value;
@@ -66,7 +68,7 @@
 			//<<<<문서 로딩 시 오늘 날짜에 대한 스케줄 세팅END
 			
 			
-			//스케줄 등록 시 MODAL 화면에 flatfickr 넣음.
+			//>>>>>>>스케줄 등록 시 MODAL 화면에 flatfickr START
 			flatpickr("#addPicker", {
 				"allowInput" : true,
 				"enableTime" : true,
@@ -79,7 +81,36 @@
 				"onChange" : function(){
 					document.getElementById("modalSelDate").innerHTML = document.getElementById("addPicker").value;
 				}
+			});
+			//<<<<<<<<<<< 스케줄 등록 시 MODAL 화면에 flatfickr END
+			
+			
+			//>>>>>>>>>>> 등록 버튼 클릭 시 프로그램 목록이랑 모달 이벤트
+			function fn_addBtn(){
+				$.ajax({
+					url:"/program/progList.do",
+					type:"POST",
+					dataType:"json",
+					contentType:"application/json",
+					data:JSON.stringify(data),
+					success:function(data){
+						
+						var sel = document.getElementById("program");
+						var inhtml = '';
+						
+						$.each(data,function(key,value){
+							if(value['PROG_ID'] != null){
+								inhtml = inhtml + "<option value='"+value[PROG_ID]+"'>"+value[PROG_NAME]+"</option>";
+							}
+						});
+						sel.innerHTML = inhtml;
+					},
+					error:function(){
+						alert("잠시 후 다시 시도해주세요."); 
+					}
 				});
+			}
+			//<<<<<<<<<<<
 			
 		});
 	</script>
@@ -102,9 +133,6 @@
 			</table>
 		</div>
 	</div>
-	
-	
-	
 	
 	
 	</div>
@@ -131,7 +159,7 @@
 					<table>
 					<tr><td><h4 id="modalSelDate">등록 일자를 선택해주세요.</h4></td></tr>
 					<tr><td>
-					<select name="program">
+					<select name="program" id="program">
 						<option value="">프로그램을 선택해주세요</option>
 					</select>
 					</td></tr>

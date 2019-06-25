@@ -34,23 +34,18 @@ public class scheduleCtrl {
 	public ModelAndView scheduleList(HttpServletRequest request, HttpServletResponse response) {
 		
 		String user_id = request.getParameter("user_id") == null ? request.getParameter("uservo.user_id") : request.getParameter("user_id");
-		logger.debug("\t user_id >>>>> "+user_id);
+		//logger.debug("\t user_id >>>>> "+user_id);
 		
 		//오늘 날짜의 스케줄을 가져오기 위해 날짜..세팅..
-//		Date date = new Date();
-//		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD");
-//		String sch_day = dateFormat.format(date);
-		
 		String sch_day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-		logger.debug("\t sch_day >>>>> "+sch_day);
+		//logger.debug("\t sch_day >>>>> "+sch_day);
 		
 		scheduleVO schvo = new scheduleVO();
 		schvo.setUser_id(user_id);
 		schvo.setSch_day(sch_day);
 		
 		List<Map<String, Object>> scheduleList = scheduleservice.scheduleList(schvo);
-		
-		logger.debug("schedulelist임.."+scheduleList.toString());
+		//logger.debug("schedulelist임.."+scheduleList.toString());
 		
 		ModelAndView mv = new ModelAndView("/schedule/scheduleList");
 		String jsonData = new Gson().toJson(scheduleList);

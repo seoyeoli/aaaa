@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="programsql">
+
+	<select id="programList" parameterType="com.my.company.program.vo.programVO" resultType="hashmap">
+	<![CDATA[
+	
+		select 
+			PROG_ID,
+			PROG_TYPE,
+			PROG_NAME,
+			PROG_TRAINER,
+			PROG_REMARK,
+			PROG_LIMIT
+		from just_program
+		where PROG_DEL_YN = 'N'
+
+	]]>
+	</select>
+	
+	
+	<select id="registProgList" parameterType="String" resultType="hashmap" >
+	<![CDATA[
+		SELECT 
+			PROG_ID,
+			PROG_TYPE,
+			PROG_NAME,
+			PROG_TRAINER,
+			PROG_REMARK,
+			PROG_LIMIT
+		FROM JUST_PROGRAM
+		WHERE PROG_STATUS_CODE != 'P3'
+		AND PROG_DEL_YN = 'N'
+		AND PROG_ID IN (SELECT PROG_ID FROM JUST_PROG_USER WHERE USER_ID = #{user_id})
+	]]>
+	</select>
+	
+	
+	<insert id="programSave" parameterType="com.my.company.program.vo.programVO" >
+	<![CDATA[
+	
+		insert into just_program (
+		    PROG_ID,
+		    PROG_TYPE,
+		    PROG_NAME,
+		    PROG_TRAINER,
+		    PROG_REMARK,
+		    PROG_LIMIT,
+		    PROG_STATUS_CODE
+		)
+		values(
+			#{prog_type}
+		    	||to_char(sysdate,'yyyymmdd')
+		    	||LPAD((SELECT COUNT(prog_id) FROM just_program WHERE prog_id like #{prog_type}||to_char(sysdate,'yyyymmdd')||'%' ),3,'0'),
+		    #{prog_type},
+		    #{prog_name},
+		    #{prog_trainer},
+		    #{prog_remark},
+		    #{prog_limit},
+		    #{prog_status_code}
+		)
+	
+	]]>
+	</insert>
+	
+</mapper>
