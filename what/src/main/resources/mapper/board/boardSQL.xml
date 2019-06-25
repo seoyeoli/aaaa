@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardsql">
+	
+	<select id="selectBoardList" parameterType="com.my.company.board.vo.boardVO" resultType="hashmap">
+	<![CDATA[
+	SELECT * 
+	FROM (
+		SELECT
+			ROWNUM row_num ,
+			board_id ,
+			user_id ,
+			(select user_name from just_user where user_id = user_id) user_name , 
+			(select user_num from just_user where user_id = user_id) user_num,  
+			board_title ,
+			board_body ,
+			to_char(board_wrt_date,'yy.mm.dd hh24:mi') board_wrt_date ,
+			board_del_yn,
+			board_old_id,
+			board_notice
+		FROM JUST_BOARD
+		WHERE 1=1
+		AND BOARD_DEL_YN = 'N'
+	]]>
+	<if test="board_title != null and board_title != '' ">
+		AND board_title like '%'||#{board_title}||'%'
+	</if>
+	<if test="board_notice != null and board_notice != '' ">
+		AND board_notice = #{board_notice}
+	</if>
+	<![CDATA[
+		ORDER BY board_wrt_date DESC
+	)
+	]]>
+	</select>
+	
+	
+	
+	<insert id="saveBoard" parameterType="com.my.company.board.vo.boardVO">
+	<![CDATA[
+		INSERT INTO JUST_BOARD (
+			board_id ,
+			user_id ,
+			board_title ,
+			board_body ,
+			board_wrt_date ,
+			board_del_yn,
+			board_old_id,
+			board_notice
+		)
+		VALUES(
+			(
+			to_char(sysdate,'yyyymmddhh24miss')||
+    		(select count(board_id) from just_board where board_id like to_char(sysdate,'yyyymmddhh24miss')||'%')
+			),
+			#{user_id},
+			#{board_title},
+			#{board_body},
+			sysdate,
+			'N',
+			#{board_old_id},
+			'N'
+		)	
+	]]>
+	</insert>
+	
+	
+	
+	<select id="selectBoard" parameterType="String" resultType="com.my.company.board.vo.boardVO">
+	<![CDATA[
+		SELECT
+			board_id,
+			board_title,
+			board_body,
+			user_id,
+			(select user_name from just_user where user_id = user_id) user_name,
+			(select user_num from just_user where user_id = user_id) user_num,  
+			to_char(board_wrt_date,'yyyy-mm-dd hh24:mi:ss') board_wrt_date,
+			board_old_id,
+			board_notice
+		FROM JUST_BOARD
+		WHERE BOARD_ID = #{board_id}
+	]]>
+	</select>
+	
+	
+
+</mapper>

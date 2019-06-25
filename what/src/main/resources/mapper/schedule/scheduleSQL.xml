@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="schedulesql">
+
+	<select id="scheduleList" parameterType="com.my.company.schedule.vo.scheduleVO" resultType="hashmap">
+	<![CDATA[
+		SELECT 
+			sche.sch_id, 
+			sche.user_id,
+			(select user_name from just_user ju1 where ju1.user_id = sche.user_id) as user_name,
+			sche.sch_day, 
+			sche.sch_time, 
+			sche.sch_wrt_user_id, 
+			(select user_name from just_user ju2 where ju2.user_id = sche.sch_wrt_user_id) as sch_wrt_user_name,
+			prog.prog_id, 
+			prog.prog_type, 
+			(select code_name from just_code where code_id = prog.prog_type) as prog_type_name,
+			prog.prog_trainer,
+			(select user_name from just_user ju3 where ju3.user_id = prog.prog_trainer) as prog_trainer_name, 
+			prog.prog_remark
+		FROM just_schedule sche, just_program prog
+		WHERE sche.prog_id = prog.prog_id(+)
+		AND sche.user_id = #{user_id}
+	]]>	
+	<if test="sch_day != '' and sch_day != null">
+		<![CDATA[
+			AND TO_DATE(sche.SCH_DAY,'YYYY-MM-DD') = TO_DATE(#{sch_day},'YYYY-MM-DD')
+		]]>
+	</if>
+	<![CDATA[
+		ORDER BY SCH_DAY, SCH_TIME ASC
+	]]>
+	</select>
+	
+	
+	
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="usersql">
+	
+	<parameterMap type="com.my.company.user.vo.userVO" id="userVO"></parameterMap>
+	<resultMap type="com.my.company.user.vo.userVO" id="userVO"></resultMap>
+	
+	
+	<select id="selectUser" parameterType="com.my.company.user.vo.userVO" resultType="com.my.company.user.vo.userVO">
+	<![CDATA[
+		SELECT	user_id ,
+				user_num ,
+				user_name ,
+				user_birthday ,
+				user_phone ,
+				user_visit ,
+				user_auth
+		FROM 	JUST_USER
+		WHERE 	user_id = #{user_id}
+	]]>
+	
+	</select>
+	
+	
+	<select id="loginUser" parameterType="com.my.company.user.vo.userVO" resultType="String">
+	<![CDATA[
+		select 	user_id
+		from 	just_user
+		where 	user_id = #{user_id}
+		and		user_pw = #{user_pw} 
+	]]>
+	</select>
+</mapper>

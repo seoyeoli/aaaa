@@ -1,0 +1,19 @@
+.topmenu:link 		{ color: white; text-decoration: none;}
+.topmenu:visited 	{ color: white; text-decoration: none;}
+.topmenu:hover 		{ color: white; text-decoration: underline;}
+
+ 
+.normallink:link 	{ color: black; text-decoration: none; font-size: 13px;}
+.normallink:visited { color: black; text-decoration: none; font-size: 13px;}
+.normallink:hover 	{ color: black; text-decoration: underline; font-size: 13px;} 
+
+.boardlink:link 	{ color: black; text-decoration: none; font-size: 15px;}
+.boardlink:visited 	{ color: black; text-decoration: none; font-size: 15px;}
+.boardlink:hover 	{ color: black; text-decoration: underline; font-size: 15px;} 
+
+
+.mainlink:link 		{ color: black; text-decoration: underline; font-size: 15px; }
+.mainlink:visited 	{ color: black; text-decoration: underline; font-size: 15px; }
+.mainlink:hover 	{ color: black; text-decoration: underline; font-size: 15px; } 
+.mainlink { font-weight: bold; }
+
