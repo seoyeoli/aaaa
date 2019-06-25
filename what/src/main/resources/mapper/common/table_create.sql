@@ -119,7 +119,7 @@ create table just_schedule
     sch_time varchar2(100),
     prog_id varchar2(100),
     sch_wrt_user_id varchar2(100),
-    sch_statue_code char(2) default '00'
+    sch_status_code char(2) default '00'
 )
 --00 등록신청
 --01 트레이너쪽에서 역요청
