@@ -85,22 +85,24 @@
 			//<<<<<<<<<<< 스케줄 등록 시 MODAL 화면에 flatfickr END
 			
 			
-			//>>>>>>>>>>> 등록 버튼 클릭 시 프로그램 목록이랑 모달 이벤트
-			function fn_addBtn(){
+			
+			//>>>>>>>>>>> 등록 Modal 보여질때 프로그램 목록 가져옴
+			$('#myModal').on('shown.bs.modal', function () {
+			  var progData = {"user_id":document.getElementById("topuserid").value};
 				$.ajax({
-					url:"/program/progList.do",
+					url:"/program/registProgList.do",
 					type:"POST",
 					dataType:"json",
 					contentType:"application/json",
-					data:JSON.stringify(data),
+					data:JSON.stringify(progData),
 					success:function(data){
 						
 						var sel = document.getElementById("program");
-						var inhtml = '';
+						var inhtml = "<option value=''>프로그램을 선택해주세요</option>";
 						
 						$.each(data,function(key,value){
 							if(value['PROG_ID'] != null){
-								inhtml = inhtml + "<option value='"+value[PROG_ID]+"'>"+value[PROG_NAME]+"</option>";
+								inhtml = inhtml + "<option value='"+value['PROG_ID']+"'>"+value['PROG_NAME']+"</option>"; 
 							}
 						});
 						sel.innerHTML = inhtml;
@@ -109,10 +111,20 @@
 						alert("잠시 후 다시 시도해주세요."); 
 					}
 				});
-			}
-			//<<<<<<<<<<<
+			});
+			//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			
+			
 			
 		});
+		
+		//>>>>>>>>>>> 저장버튼 클릭 시
+		function fn_save(){
+			
+		}
+		//<<<<<<<<<<<
+		
+		
 	</script>
 </head>
 <body>
@@ -157,6 +169,7 @@
 					
 					<div style="padding: 5px 5px 5px 10px">
 					<table>
+					
 					<tr><td><h4 id="modalSelDate">등록 일자를 선택해주세요.</h4></td></tr>
 					<tr><td>
 					<select name="program" id="program">
@@ -166,12 +179,16 @@
 					
 					</table>
 					
+					<form action="/schedule/scheduleSave.do" method="post">
+						+
+					</form>
+					
 					</div>
 				</div>
 				</div> 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">close</button>
-					<button type="button" class="btn btn-primary">save</button>
+					<button type="button" class="btn btn-primary" onclick="fn_save()">save</button>
 				</div>
 			</div>
 		</div>

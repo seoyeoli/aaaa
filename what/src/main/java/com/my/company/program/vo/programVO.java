@@ -7,12 +7,13 @@ public class programVO {
 	String prog_trainer;
 	String prog_remark;
 	String prog_limit;
+	String prog_status_code;
+	String prog_del_yn;
 	
 	String user_id;
 	String user_name;
 	String prog_trainer_name;
 	String prog_type_name;
-	
 	public String getProg_id() {
 		return prog_id;
 	}
@@ -49,6 +50,18 @@ public class programVO {
 	public void setProg_limit(String prog_limit) {
 		this.prog_limit = prog_limit;
 	}
+	public String getProg_status_code() {
+		return prog_status_code;
+	}
+	public void setProg_status_code(String prog_status_code) {
+		this.prog_status_code = prog_status_code;
+	}
+	public String getProg_del_yn() {
+		return prog_del_yn;
+	}
+	public void setProg_del_yn(String prog_del_yn) {
+		this.prog_del_yn = prog_del_yn;
+	}
 	public String getUser_id() {
 		return user_id;
 	}
@@ -74,13 +87,16 @@ public class programVO {
 		this.prog_type_name = prog_type_name;
 	}
 	
+	
 	@Override
 	public String toString() {
 		return "programVO [prog_id=" + prog_id + ", prog_type=" + prog_type + ", prog_name=" + prog_name
 				+ ", prog_trainer=" + prog_trainer + ", prog_remark=" + prog_remark + ", prog_limit=" + prog_limit
-				+ ", user_id=" + user_id + ", user_name=" + user_name + ", prog_trainer_name=" + prog_trainer_name
-				+ ", prog_type_name=" + prog_type_name + "]";
+				+ ", prog_status_code=" + prog_status_code + ", prog_del_yn=" + prog_del_yn + ", user_id=" + user_id
+				+ ", user_name=" + user_name + ", prog_trainer_name=" + prog_trainer_name + ", prog_type_name="
+				+ prog_type_name + "]";
 	}
+	
 	
 	
 }
