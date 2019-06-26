@@ -24,7 +24,7 @@
 		FROM just_schedule sche, just_program prog
 		WHERE sche.prog_id = prog.prog_id(+)
 		AND sche.user_id = #{user_id}
-		AND sche.sche_del_yn = 'N'
+		AND sche.sch_del_yn = 'N'
 		AND prog.prog_del_yn = 'N'
 	]]>	
 	<if test="sch_day != '' and sch_day != null">
